@@ -1,0 +1,2 @@
+IR Transmitter (IR_tx)  ->	GPIO 4 (D4)	
+IR Receiver (IR_rx)	  ->  GPIO 14 (D14)	
