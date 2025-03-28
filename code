@@ -1,0 +1,53 @@
+#define BLYNK_PRINT Serial
+#include <WiFi.h>
+#include <BlynkSimpleEsp32.h>
+
+char auth[] = "qbVS5n1orCL_AzWy0UIf9lSYN4CHOQg6";  // Paste your Blynk Auth Token
+char ssid[] = "***********";   // Your WiFi Name
+char pass[] = "**********";  // Your WiFi Password
+
+BlynkTimer timer;
+
+const int IR_tx = 4;
+const int IR_rx = 14;
+// const int led = 2;
+int val;
+
+void setup()
+{
+  Serial.begin(115200);
+  Blynk.begin(auth, ssid, pass);
+  timer.setInterval(1000L, sendSensor);  // Send data every 1 second
+
+  pinMode(led, OUTPUT);
+  pinMode(IR_tx, OUTPUT);
+  pinMode(IR_rx, INPUT);
+  digitalWrite (IR_tx, HIGH);
+}
+
+void loop()
+{
+  Blynk.run();
+  timer.run();
+  val = analogRead(IR_rx);
+  //check_state();
+  Serial.println(val);
+  delay(200);
+}
+
+void sendSensor()
+{
+  Blynk.virtualWrite(V1, val);
+}
+
+void check_state()
+{
+  if (val == HIGH)
+  {
+    digitalWrite (led, HIGH);
+  }
+  if (val == LOW)
+  {
+    digitalWrite (led, LOW);
+  }
+}
